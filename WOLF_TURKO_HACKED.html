@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WOLF TURKO</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: black;
+      color: white;
+      font-family: 'Courier New', monospace;
+      height: 100%;
+      width: 100%;
+    }
+    h1, h2 {
+      width: 100%;
+      text-align: center;
+      position: absolute;
+      left: 0;
+      z-index: 2;
+      letter-spacing: 5px;
+    }
+    h1 {
+      top: 35%;
+      font-size: 3em;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    h2 {
+      top: 50%;
+      font-size: 2em;
+      color: red;
+      text-shadow: 0 0 10px red, 0 0 20px red;
+      animation: blink 1s step-start infinite;
+    }
+    @keyframes glow {
+      from { opacity: 0.4; }
+      to { opacity: 1; }
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="stars"></canvas>
+  <h1>WOLF TURKO WAS HERE</h1>
+  <h2>HELLO ADMIN — SYSTEM HACKED</h2>
+
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_9be4e3fd60.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    function createStars(count) {
+      stars = [];
+      for (let i = 0; i < count; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 1.5,
+          velocity: Math.random() * 0.5 + 0.2
+        });
+      }
+    }
+
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "white";
+      stars.forEach(star => {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
+        ctx.fill();
+        star.y += star.velocity;
+        if (star.y > canvas.height) {
+          star.y = 0;
+          star.x = Math.random() * canvas.width;
+        }
+      });
+      requestAnimationFrame(drawStars);
+    }
+
+    createStars(200);
+    drawStars();
+  </script>
+</body>
+</html>
